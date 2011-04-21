@@ -166,3 +166,54 @@ def guess_lexer(request):
     code_string = request.GET.get('codestring', False)
     response = simplejson.dumps({'lexer': guess_code_lexer(code_string)})
     return HttpResponse(response)
+
+# Added views
+
+def snippet_free_delete(request, snippet_id):
+    snippet = get_object_or_404(Snippet, secret_id=snippet_id)
+    snippet.delete()
+    return HttpResponseRedirect(reverse('snippet_new'))
+
+def browse(request, template_name='dpaste/browse.html' ):
+    snippet_list = Snippet.objects.all()
+    
+    return render_to_response(
+        template_name,
+        {"snippet_list":snippet_list},
+        RequestContext(request)
+    )
+
+def browse_language(request, language, template_name='dpaste/browse.html'):
+    snippet_list = Snippet.objects.filter(lexer=language)
+    
+    return render_to_response(
+        template_name,
+        {"snippet_list":snippet_list},
+        RequestContext(request)
+    )
+
+
+def language_list(request, template_name="dpaste/language_list.html"):
+    from dpaste.highlight import LEXER_LIST 
+    language_list = []
+    for l in LEXER_LIST:
+        matches = Snippet.objects.filter(lexer=l[0]).count()
+        print matches
+        if ( matches > 0):
+            language_list.append((l,matches))
+    return render_to_response(
+        template_name,
+        {"language_list":language_list},
+        RequestContext(request)
+    )
+
+def author_list(request, template_name="dpaste/author_list.html"):
+    author_list = Snippet.objects.all().distinct("author")
+    
+    return render_to_response(
+        template_name,
+        {"author_list":author_list},
+        RequestContext(request)
+    )
+    
+    

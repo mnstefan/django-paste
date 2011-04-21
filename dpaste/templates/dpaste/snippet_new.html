@@ -11,8 +11,7 @@
 
 
 {% block sidebar %}
-    <h2>{% trans "DPASTE_HOMEPAGE_TITLE" %}</h2>
-    <p>{% trans "DPASTE_HOMEPAGE_DESCRIPTION" %}</p>
+{{block.super}}
 {% endblock %}
 
 
@@ -36,4 +35,9 @@ jQuery(document).ready(function(){
     {% endif %}
 });
 </script>
+{% endblock %}
+
+{% block footer %}
+	{{block.super}}
+    <p>{% trans "DPASTE_HOMEPAGE_DESCRIPTION" %}</p>
 {% endblock %}

@@ -8,19 +8,29 @@
 
 {% block content %}
     {% if snippet_list %}
+    
+    <ul class="snippet-list">
     {% for snippet in snippet_list %}
-    <h2>
-        <a href="{{ snippet.get_absolute_url }}">{% trans "Snippet" %} #{{ snippet.pk }}</a>
-        ~ {{ snippet.published|date:_("DATETIME_FORMAT") }}
-    </h2>
-    <p style="color: #555; margin: 8px 0 20px 0;">{{ snippet.content|truncatewords:40 }}</p>
+    <li>
+	    <h2>
+	        <a href="{{ snippet.get_absolute_url }}">{{snippet.title}} / {{snippet.author}} </a>
+	        ~ {{ snippet.published|date:_("DATETIME_FORMAT") }}
+	    </h2>
+	    <p class="snippet-preview">{{ snippet.content|truncatewords:40 }}</p>
+    </li>
     {% endfor %}
+    </ul>
+    
     {% else %}
     <p>{% trans "No snippets available." %}</p>
     {% endif %}
 
-
     <div class="hint">
         {% trans "DATA_STORED_IN_A_COOKIE_HINT" %}
     </div>
+{% endblock %}
+
+{% block footer %}
+	{{block.super}}
+    <p>{% trans "DPASTE_HOMEPAGE_DESCRIPTION" %}</p>
 {% endblock %}

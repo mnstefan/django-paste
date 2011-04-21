@@ -66,6 +66,11 @@
 
 
 {% block sidebar %}
+	{{ block.super }}
+	<h2>{% trans "Actions" %}</h2>
+		<a href="{% url snippet_details_raw snippet %}" class="button">{% trans "Download" %}</a>
+		<a href="{% url snippet_free_delete snippet %}" class="button delete">{% trans "Delete" %}</a>
+	
     <h2>{% trans "History" %}</h2>
 
     <form method="get" id="diffform" action="{% url snippet_diff %}">
@@ -170,4 +175,9 @@ jQuery(document).ready(function(){
     {% endif %}
 });
 </script>
+{% endblock %}
+
+{% block footer %}
+	{{block.super}}
+    <p>{% trans "DPASTE_HOMEPAGE_DESCRIPTION" %}</p>
 {% endblock %}
