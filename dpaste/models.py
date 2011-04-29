@@ -6,6 +6,7 @@ from django.db import models
 from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
 from dpaste.highlight import LEXER_DEFAULT, pygmentize
+import tagging
 
 t = 'abcdefghijkmnopqrstuvwwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ1234567890'
 def generate_secret_id(length=4):
@@ -46,3 +47,5 @@ class Snippet(models.Model):
         return '%s' % self.secret_id
 
 mptt.register(Snippet, order_insertion_by=['content'])
+try: tagging.register(Snippet)
+except: pass
